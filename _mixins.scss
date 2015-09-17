@@ -23,6 +23,23 @@
   }
 }
 
+@mixin grid($columns, $width) {
+  width-max: #{100 / $columns * $width}%;
+  flex-basis: #{100 / $columns * $width}%;
+}
+
+@mixin grid-layout($columns, $media, $name: columns) {
+  @include media($media) {
+      @for $i from 1 through $columns {
+        .#{$name}-#{$i} {
+            $col-width: 100/$columns*$i;
+            max-width:#{$col-width}#{%}; 
+            flex-basis:#{$col-width}#{%};
+          }
+      }
+   }
+}
+
 //Clearfix
 @mixin clearfix {
   *zoom: 1;
