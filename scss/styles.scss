@@ -1,0 +1,12 @@
+@import '_reset.scss';
+@import '_mixins.scss';
+@import '_layout.scss';
+
+@include grid-layout(12, col);
+
+.hero {
+	height: 400px;
+	background: crimson;
+	color: white;
+}
+

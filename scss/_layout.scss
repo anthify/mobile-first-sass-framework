@@ -1,0 +1,37 @@
+//Elements
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.v-align-children {
+	display: flex;
+	align-items: center;
+}
+
+.h-align-children {
+	display: flex;
+	justify-content: center;
+}
+
+.h-align {
+	align-self: center;
+}
+
+//Text
+.t-align-center {
+	text-align: center;
+}
+
+.t-align-left {
+	text-align: left;
+}
+
+.t-align-right {
+	text-align: right;
+}

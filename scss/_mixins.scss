@@ -1,21 +1,4 @@
-//Media Queries
-@mixin screen-medium {
-  @media only screen and (min-width: 600px) {
-    @content;
-  }
-}
-
-@mixin screen-large {
-  @media only screen and (min-width: 900px) {
-    @content;
-  }
-}
-
-@mixin screen-x-large {
-  @media only screen and (min-width: 1200px) {
-    @content;
-  }
-}
+//Meida query
 
 @mixin media($width) {
   @media only screen and (min-width: $width) {
@@ -28,8 +11,7 @@
   flex-basis: #{100 / $columns * $width}%;
 }
 
-@mixin grid-layout($columns, $media, $name: columns) {
-  @include media($media) {
+@mixin grid-layout($columns, $name: columns) {
       @for $i from 1 through $columns {
         .#{$name}-#{$i} {
             $col-width: 100/$columns*$i;
@@ -37,7 +19,6 @@
             flex-basis:#{$col-width}#{%};
           }
       }
-   }
 }
 
 //Clearfix
@@ -52,6 +33,7 @@
   }
 }
 
+//Two color gradient linear mixin;
 @mixin linear-gradient($one, $two) {
       background: $one;
       background: -moz-linear-gradient(left, $one 0%, $two 100%);
@@ -73,6 +55,8 @@
 @mixin font-size($size) {
   font-size: $size;
   font-size: calculateRem($size);
+  line-height: $size * 1.618;
+  line-height: calculateRem($size * 1.618);
 }
 
 //Font Face
