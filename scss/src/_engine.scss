@@ -1,0 +1,70 @@
+@import '../_config.scss';
+
+$directions: (top, right, bottom, left);
+
+$viewportList: map-keys($viewports);
+$viewportLength: length($viewportList);
+$marginList: map-keys($margins);
+$marginLength: length($marginList);
+$paddingList: map-keys($padding);
+$paddingLength: length($paddingList);
+$gridList: map-keys($grid);
+$gridLength: length($gridList);
+
+@mixin media($width) {
+  @media only screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin engine() {
+	@for $i from 1 through $viewportLength {
+	$mediaName: nth($viewportList, $i);
+	$mediaWidth: map-get($viewports, $mediaName);
+	@include media($mediaWidth) {
+		@include marginEngine($mediaName);
+		@include paddingEngine($mediaName);
+		@include gridEngine($mediaName);
+		}
+	}
+}
+
+@mixin marginEngine($mediaName){
+	@for $x from 1 through $marginLength {
+			$className: nth($marginList, $x);
+			@for $n from 1 through length($directions) {
+				$d: nth($directions, $n);
+				.#{$mediaName}-margin-#{$d}-#{$className} {
+					margin-#{$d}: map-get($margins, $className);
+				} 
+			}
+		}
+	}
+
+@mixin paddingEngine($mediaName){
+	@for $x from 1 through $paddingLength {
+			$className: nth($paddingList, $x);
+			@for $n from 1 through length($directions) {
+				$d: nth($directions, $n);
+				.#{$mediaName}-padding-#{$d}-#{$className} {
+					padding-#{$d}: map-get($padding, $className);
+				} 
+			}
+		}
+	}
+
+@mixin gridEngine($mediaName) {
+      @for $i from 1 through $gridLength {
+      	$name: nth($gridList, $i);
+      	$columns: map-get($grid, $name);
+      	@for $x from 1 through $columns {
+	        .#{$mediaName}-#{$name}-#{$x} {
+	            $col-width: 100/$columns*$x;
+	            max-width:#{$col-width}#{%}; 
+	            flex-basis:#{$col-width}#{%};
+	          }
+      	}
+      }
+	}
+
+@include engine();

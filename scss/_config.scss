@@ -1,0 +1,25 @@
+$viewports: (
+	small-phone: 320px, 
+	large-phone: 414px,
+	tablet: 768px,
+	desktop: 1024px,
+	large-desktop: 1300px
+);
+
+$margins: (
+	small: 5px,
+	medium: 10px,
+	large: 20px,
+	x-large: 40px
+);
+
+$padding: (
+	small: 5px,
+	medium: 10px,
+	large: 20px,
+	x-large: 40px
+);
+
+$grid: (
+	col: 12
+	);
