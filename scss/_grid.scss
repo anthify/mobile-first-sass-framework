@@ -1,8 +1,0 @@
-//Examples
-@include grid-layout(16, 480px, grid-mobile);
-
-@include grid-layout(12, 1200px, grid-large);
-
-.box {
-  @include grid(12, 7);
-}

@@ -1,25 +1,49 @@
 $viewports: (
-	small-phone: 320px, 
-	large-phone: 414px,
 	tablet: 768px,
-	desktop: 1024px,
-	large-desktop: 1300px
+	desketop: 1024px,
 );
 
 $margins: (
+	none: 0,
 	small: 5px,
-	medium: 10px,
-	large: 20px,
-	x-large: 40px
+	large: 20px
 );
 
 $padding: (
+	none: 0,
 	small: 5px,
-	medium: 10px,
-	large: 20px,
-	x-large: 40px
+	large: 20px
 );
 
 $grid: (
 	col: 12
-	);
+);
+
+$alignHorizontal: (
+	center: center,
+	left: left,
+	right: right
+);
+
+$alignVertical: (
+	middle: middle,
+	top: top,
+	bottom: bottom
+);
+
+$alignText: (
+	center: center,
+	left: left,
+	right: right
+);
+
+$colors: (
+	black: #121211,
+	white: #f0f0f0
+);
+
+$backgroundColours: (
+	red: #ff0000,
+	greed: green,
+	blue: blue
+);

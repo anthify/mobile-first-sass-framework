@@ -6,7 +6,7 @@ var gulp = require('gulp'),
 gulp.task('sass', function() {
 	return gulp.src('./scss/**/*')
 	.pipe(sass.sync().on('error', sass.logError))
-	.pipe(sass({includePaths: ['./scss'], outputStyle: 'compressed'}))
+	.pipe(sass({includePaths: ['./scss']}))
 	.pipe(gulp.dest('./css'));
 });
 

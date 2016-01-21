@@ -19,14 +19,18 @@ $gridLength: length($gridList);
 
 @mixin engine() {
 	@for $i from 1 through $viewportLength {
-	$mediaName: nth($viewportList, $i);
-	$mediaWidth: map-get($viewports, $mediaName);
+	$mediaName: '.' + nth($viewportList, $i) + '-';
+	$mediaWidth: map-get($viewports, nth($viewportList, $i));
 	@include media($mediaWidth) {
 		@include marginEngine($mediaName);
 		@include paddingEngine($mediaName);
 		@include gridEngine($mediaName);
 		}
 	}
+	$mediaName:'.';
+		@include marginEngine($mediaName);
+		@include paddingEngine($mediaName);
+		@include gridEngine($mediaName);
 }
 
 @mixin marginEngine($mediaName){
@@ -34,7 +38,7 @@ $gridLength: length($gridList);
 			$className: nth($marginList, $x);
 			@for $n from 1 through length($directions) {
 				$d: nth($directions, $n);
-				.#{$mediaName}-margin-#{$d}-#{$className} {
+				#{$mediaName}margin-#{$d}-#{$className} {
 					margin-#{$d}: map-get($margins, $className);
 				} 
 			}
@@ -46,7 +50,7 @@ $gridLength: length($gridList);
 			$className: nth($paddingList, $x);
 			@for $n from 1 through length($directions) {
 				$d: nth($directions, $n);
-				.#{$mediaName}-padding-#{$d}-#{$className} {
+				#{$mediaName}padding-#{$d}-#{$className} {
 					padding-#{$d}: map-get($padding, $className);
 				} 
 			}
@@ -58,7 +62,7 @@ $gridLength: length($gridList);
       	$name: nth($gridList, $i);
       	$columns: map-get($grid, $name);
       	@for $x from 1 through $columns {
-	        .#{$mediaName}-#{$name}-#{$x} {
+	        #{$mediaName}#{$name}-#{$x} {
 	            $col-width: 100/$columns*$x;
 	            max-width:#{$col-width}#{%}; 
 	            flex-basis:#{$col-width}#{%};
