@@ -1,12 +1,5 @@
+@import './_global_vars.scss';
 @import '../_config.scss';
-
-
-$directions: (top, right, bottom, left);
-
-$viewports: false !default;
-$margins: false !default;
-$padding: false !default;
-$grid: false !default;
 
 @if $viewports {
 	$viewportList: map-keys($viewports);
@@ -26,6 +19,11 @@ $grid: false !default;
 @if $grid {
 	$gridList: map-keys($grid);
 	$gridLength: length($gridList);
+}
+
+@if $alignHorizontalChildren {
+	$ahcClassNames: map-keys($alignHorizontalChildren);
+	$ahcLength: length($ahcClassNames);
 }
 
 
@@ -56,6 +54,10 @@ $grid: false !default;
 				@if $grid {
 					@include gridEngine($mediaName);
 				}
+
+				@if $alignHorizontalChildren {
+					@include alignHorizontalChildrenEngine($mediaName);
+				}
 			
 			} //@include media
 		}//@for loop
@@ -72,6 +74,10 @@ $grid: false !default;
 
 	@if $grid {
 		@include gridEngine($mediaName);
+	}
+
+	@if $alignHorizontalChildren {
+		@include alignHorizontalChildrenEngine($mediaName);
 	}
 
 }//Engine
@@ -111,6 +117,24 @@ $grid: false !default;
 	        max-width:#{$col-width}#{%}; 
 	        flex-basis:#{$col-width}#{%};
 	      	}
+		}
+	}
+}
+
+@mixin alignHorizontalChildrenEngine($mediaName) {
+	@for $i from 1 through $ahcLength {
+		$name: nth($ahcClassNames, $i);
+		#{$mediaName}#{$name} {
+			display: flex;
+			@if map-get($alignHorizontalChildren, $name) == 'left' {
+				justify-content: flex-start;
+			}
+			@if map-get($alignHorizontalChildren, $name) == 'center' {
+				justify-content: center;
+			}
+			@if map-get($alignHorizontalChildren, $name) == 'right' {
+				justify-content: flex-end;
+			}			
 		}
 	}
 }

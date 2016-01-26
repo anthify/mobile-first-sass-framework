@@ -1,6 +1,6 @@
 $viewports: (
 	tablet: 768px,
-	desketop: 1024px,
+	desk-top: 1024px,
 );
 
 $margins: (
@@ -19,22 +19,22 @@ $grid: (
 	col: 12
 );
 
-$alignHorizontal: (
-	center: center,
-	left: left,
-	right: right
+$alignHorizontalChildren: (
+	h-center: $center,
+	h-left: $left,
+	h-right: $right
 );
 
 $alignVertical: (
-	middle: middle,
-	top: top,
-	bottom: bottom
+	middle: $middle,
+	top: $top,
+	bottom: $bottom
 );
 
 $alignText: (
-	center: center,
-	left: left,
-	right: right
+	center: $center,
+	left: $left,
+	right: $right
 );
 
 $colors: (
