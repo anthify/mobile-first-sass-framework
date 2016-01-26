@@ -1,15 +1,33 @@
 @import '../_config.scss';
 
+
 $directions: (top, right, bottom, left);
 
-$viewportList: map-keys($viewports);
-$viewportLength: length($viewportList);
-$marginList: map-keys($margins);
-$marginLength: length($marginList);
-$paddingList: map-keys($padding);
-$paddingLength: length($paddingList);
-$gridList: map-keys($grid);
-$gridLength: length($gridList);
+$viewports: false !default;
+$margins: false !default;
+$padding: false !default;
+$grid: false !default;
+
+@if $viewports {
+	$viewportList: map-keys($viewports);
+	$viewportLength: length($viewportList);
+}
+
+@if $margins {
+	$marginList: map-keys($margins);
+	$marginLength: length($marginList);	
+}
+
+@if $padding {
+	$paddingList: map-keys($padding);
+	$paddingLength: length($paddingList);	
+}
+
+@if $grid {
+	$gridList: map-keys($grid);
+	$gridLength: length($gridList);
+}
+
 
 @mixin media($width) {
   @media only screen and (min-width: $width) {
@@ -18,57 +36,83 @@ $gridLength: length($gridList);
 }
 
 @mixin engine() {
-	@for $i from 1 through $viewportLength {
-	$mediaName: '.' + nth($viewportList, $i) + '-';
-	$mediaWidth: map-get($viewports, nth($viewportList, $i));
-	@include media($mediaWidth) {
-		@include marginEngine($mediaName);
-		@include paddingEngine($mediaName);
-		@include gridEngine($mediaName);
-		}
-	}
-	$mediaName:'.';
-		@include marginEngine($mediaName);
-		@include paddingEngine($mediaName);
-		@include gridEngine($mediaName);
-}
+	@if $viewports {
 
-@mixin marginEngine($mediaName){
+		@for $i from 1 through $viewportLength {
+		
+			$mediaName: '.' + nth($viewportList, $i) + '-';
+			$mediaWidth: map-get($viewports, nth($viewportList, $i));
+			
+			@include media($mediaWidth) {
+				
+				@if $margins {
+					@include marginEngine($mediaName);
+				}
+				
+				@if $padding {
+					@include paddingEngine($mediaName);
+				}
+
+				@if $grid {
+					@include gridEngine($mediaName);
+				}
+			
+			} //@include media
+		}//@for loop
+	}//@if $viewports
+
+	$mediaName: '.';
+	@if $margins {
+		@include marginEngine($mediaName);
+	}
+
+	@if $padding {
+		@include paddingEngine($mediaName);
+	}
+
+	@if $grid {
+		@include gridEngine($mediaName);
+	}
+
+}//Engine
+
+
+@mixin marginEngine($mediaName) {
 	@for $x from 1 through $marginLength {
-			$className: nth($marginList, $x);
-			@for $n from 1 through length($directions) {
-				$d: nth($directions, $n);
-				#{$mediaName}margin-#{$d}-#{$className} {
-					margin-#{$d}: map-get($margins, $className);
-				} 
-			}
+		$className: nth($marginList, $x);
+		@for $n from 1 through length($directions) {
+			$d: nth($directions, $n);
+			#{$mediaName}margin-#{$d}-#{$className} {
+				margin-#{$d}: map-get($margins, $className);
+			} 
 		}
 	}
+}
 
 @mixin paddingEngine($mediaName){
 	@for $x from 1 through $paddingLength {
-			$className: nth($paddingList, $x);
-			@for $n from 1 through length($directions) {
-				$d: nth($directions, $n);
-				#{$mediaName}padding-#{$d}-#{$className} {
-					padding-#{$d}: map-get($padding, $className);
-				} 
-			}
+		$className: nth($paddingList, $x);
+		@for $n from 1 through length($directions) {
+			$d: nth($directions, $n);
+			#{$mediaName}padding-#{$d}-#{$className} {
+				padding-#{$d}: map-get($padding, $className);
+			} 
 		}
 	}
+}
 
 @mixin gridEngine($mediaName) {
-      @for $i from 1 through $gridLength {
-      	$name: nth($gridList, $i);
-      	$columns: map-get($grid, $name);
-      	@for $x from 1 through $columns {
-	        #{$mediaName}#{$name}-#{$x} {
-	            $col-width: 100/$columns*$x;
-	            max-width:#{$col-width}#{%}; 
-	            flex-basis:#{$col-width}#{%};
-	          }
-      	}
-      }
+	@for $i from 1 through $gridLength {
+		$name: nth($gridList, $i);
+		$columns: map-get($grid, $name);
+		@for $x from 1 through $columns {
+	    #{$mediaName}#{$name}-#{$x} {
+	        $col-width: 100/$columns*$x;
+	        max-width:#{$col-width}#{%}; 
+	        flex-basis:#{$col-width}#{%};
+	      	}
+		}
 	}
+}
 
 @include engine();

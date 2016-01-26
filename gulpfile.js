@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 	browserSync = require('browser-sync').create();
 
 gulp.task('sass', function() {
-	return gulp.src('./scss/**/*')
+	return gulp.src('./scss/styles.scss')
 	.pipe(sass.sync().on('error', sass.logError))
 	.pipe(sass({includePaths: ['./scss']}))
 	.pipe(gulp.dest('./css'));
