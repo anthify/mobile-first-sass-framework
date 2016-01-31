@@ -26,6 +26,11 @@
 	$ahcLength: length($ahcClassNames);
 }
 
+@if $alignVerticalChildren {
+	$avcClassNames: map-keys($alignVerticalChildren);
+	$avcLength: length($avcClassNames);
+}
+
 
 @mixin media($width) {
   @media only screen and (min-width: $width) {
@@ -116,7 +121,7 @@
 	        $col-width: 100/$columns*$x;
 	        max-width:#{$col-width}#{%}; 
 	        flex-basis:#{$col-width}#{%};
-	      	}
+      		}
 		}
 	}
 }
