@@ -35,6 +35,8 @@
 
 **/
 
+$mobileFirst: false;
+
 $viewports: (
 	tablet: 768px,
 	desktop: 1024px,
@@ -79,13 +81,14 @@ $alignText: (
 	right: $right
 );
 
-$colors: (
-	black: #121211,
-	white: #f0f0f0
-);
+/*Coming Soon*/
+// $colors: (
+// 	black: #121211,
+// 	white: #f0f0f0
+// );
 
-$backgroundColours: (
-	red: #ff0000,
-	greed: green,
-	blue: blue
-);
+// $backgroundColours: (
+// 	red: #ff0000,
+// 	greed: green,
+// 	blue: blue
+// );

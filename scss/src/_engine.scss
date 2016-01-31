@@ -2,190 +2,239 @@
 @import '../_config.scss';
 
 @if $viewports {
-	$viewportList: map-keys($viewports);
-	$viewportLength: length($viewportList);
+  $viewportList: map-keys($viewports);
+  $viewportLength: length($viewportList);
 }
 
 @if $margins {
-	$marginList: map-keys($margins);
-	$marginLength: length($marginList);	
+  $marginList: map-keys($margins);
+  $marginLength: length($marginList); 
 }
 
 @if $padding {
-	$paddingList: map-keys($padding);
-	$paddingLength: length($paddingList);	
+  $paddingList: map-keys($padding);
+  $paddingLength: length($paddingList); 
 }
 
 @if $grid {
-	$gridList: map-keys($grid);
-	$gridLength: length($gridList);
+  $gridList: map-keys($grid);
+  $gridLength: length($gridList);
 }
 
 @if $alignHorizontalChildren {
-	$ahcClassNames: map-keys($alignHorizontalChildren);
-	$ahcLength: length($ahcClassNames);
+  $ahcClassNames: map-keys($alignHorizontalChildren);
+  $ahcLength: length($ahcClassNames);
 }
 
 @if $alignVerticalChildren {
-	$avcClassNames: map-keys($alignVerticalChildren);
-	$avcLength: length($avcClassNames);
+  $avcClassNames: map-keys($alignVerticalChildren);
+  $avcLength: length($avcClassNames);
 }
 
 @if $orientationLayout {
-	$orientationLayoutClassNames: map-keys($orientationLayout);
-	$orientationLayoutLength: length($orientationLayoutClassNames);
+  $orientationLayoutClassNames: map-keys($orientationLayout);
+  $orientationLayoutLength: length($orientationLayoutClassNames);
 }
 
 
 @mixin media($width) {
-  @media only screen and (min-width: $width) {
-    @content;
+  @if $mobileFirst == false {
+      @media only screen and (max-width: $width) {
+        @content;
+      }
+  }
+  
+  @if $mobileFirst == true {
+    @media only screen and (min-width: $width) {
+        @content;
+      }
   }
 }
 
 
 
 @mixin engine() {
-	@if $viewports {
 
-		@for $i from 1 through $viewportLength {
-			$mediaExtend: '%' + nth($viewportList, $i) + '-';
-			$mediaName: '.' + nth($viewportList, $i) + '-';
-			$mediaWidth: map-get($viewports, nth($viewportList, $i));
-			
-			@include media($mediaWidth) {
+  $mediaExtend: '%';
+  $mediaName: '.';
 
-				@include flex($mediaExtend);
+  @include flex($mediaExtend)
+
+  @if $margins {
+    @include marginEngine($mediaName);
+  }
+
+  @if $padding {
+    @include paddingEngine($mediaName);
+  }
+
+  @if $grid {
+    @include gridEngine($mediaName);
+  }
+
+  @if $alignHorizontalChildren {
+    @include alignHorizontalChildrenEngine($mediaName, $mediaExtend);
+  }
+
+  @if $alignVerticalChildren {
+    @include alignVerticalChildrenEngine($mediaName, $mediaExtend);
+  }
+
+  @if $orientationLayout {
+    @include orientationLayoutEngine($mediaName, $mediaExtend);
+  }
+
+  @if $viewports {
+
+    @for $i from 1 through $viewportLength {
+      $mediaExtend: '%' + nth($viewportList, $i) + '-';
+      $mediaName: '.' + nth($viewportList, $i) + '-';
+      $mediaWidth: map-get($viewports, nth($viewportList, $i));
+      
+      @include media($mediaWidth) {
+
+        @include flex($mediaExtend);
 
 
-				@if $margins {
-					@include marginEngine($mediaName);
-				}
-				
-				@if $padding {
-					@include paddingEngine($mediaName);
-				}
+        @if $margins {
+          @include marginEngine($mediaName);
+        }
+        
+        @if $padding {
+          @include paddingEngine($mediaName);
+        }
 
-				@if $grid {
-					@include gridEngine($mediaName);
-				}
+        @if $grid {
+          @include gridEngine($mediaName);
+        }
 
-				@if $alignHorizontalChildren {
-					@include alignHorizontalChildrenEngine($mediaName, $mediaExtend);
-				}
+        @if $alignHorizontalChildren {
+          @include alignHorizontalChildrenEngine($mediaName, $mediaExtend);
+        }
 
-				@if $orientationLayout {
-					@include orientationLayoutEngine($mediaName, $mediaExtend);
-				}
-			
-			} //@include media
-		}//@for loop
-	}//@if $viewports
+        @if $alignVerticalChildren {
+          @include alignVerticalChildrenEngine($mediaName, $mediaExtend);
+        }
 
-	
-	$mediaExtend: '%';
-	$mediaName: '.';
-
-	@include flex($mediaExtend)
-
-	@if $margins {
-		@include marginEngine($mediaName);
-	}
-
-	@if $padding {
-		@include paddingEngine($mediaName);
-	}
-
-	@if $grid {
-		@include gridEngine($mediaName);
-	}
-
-	@if $alignHorizontalChildren {
-		@include alignHorizontalChildrenEngine($mediaName, $mediaExtend);
-	}
-
-	@if $orientationLayout {
-		@include orientationLayoutEngine($mediaName, $mediaExtend);
-	}
+        @if $orientationLayout {
+          @include orientationLayoutEngine($mediaName, $mediaExtend);
+        }
+      
+      } //@include media
+    }//@for loop
+  }//@if $viewports
 
 }//Engine
 
 
 @mixin marginEngine($mediaName) {
-	@for $x from 1 through $marginLength {
-		$className: nth($marginList, $x);
-		@for $n from 1 through length($directions) {
-			$d: nth($directions, $n);
-			#{$mediaName}margin-#{$d}-#{$className} {
-				margin-#{$d}: map-get($margins, $className);
-			} 
-		}
-	}
+  @for $x from 1 through $marginLength {
+    $className: nth($marginList, $x);
+    #{$mediaName}margin-#{$className} {
+      margin-top: map-get($margins, $className);
+      margin-right: map-get($margins, $className);
+      margin-bottom: map-get($margins, $className);
+      margin-left: map-get($margins, $className);   
+    }
+    @for $n from 1 through length($directions) {
+      $d: nth($directions, $n);
+      #{$mediaName}margin-#{$d}-#{$className} {
+        margin-#{$d}: map-get($margins, $className);
+      } 
+    }
+  }
 }
 
 @mixin paddingEngine($mediaName){
-	@for $x from 1 through $paddingLength {
-		$className: nth($paddingList, $x);
-		@for $n from 1 through length($directions) {
-			$d: nth($directions, $n);
-			#{$mediaName}padding-#{$d}-#{$className} {
-				padding-#{$d}: map-get($padding, $className);
-			} 
-		}
-	}
+  @for $x from 1 through $paddingLength {
+    $className: nth($paddingList, $x);
+    #{$mediaName}padding-#{$className} {
+      padding-top: map-get($padding, $className);
+      padding-right: map-get($padding, $className);
+      padding-bottom: map-get($padding, $className);
+      padding-left: map-get($padding, $className);
+    }
+    @for $n from 1 through length($directions) {
+      $d: nth($directions, $n);
+      #{$mediaName}padding-#{$d}-#{$className} {
+        padding-#{$d}: map-get($padding, $className);
+      } 
+    }
+  }
 }
 
 @mixin gridEngine($mediaName) {
-	@for $i from 1 through $gridLength {
-		$name: nth($gridList, $i);
-		$columns: map-get($grid, $name);
-		@for $x from 1 through $columns {
-	    #{$mediaName}#{$name}-#{$x} {
-	        $col-width: 100/$columns*$x;
-	        max-width:#{$col-width}#{%}; 
-	        flex-basis:#{$col-width}#{%};
-      		}
-		}
-	}
+  @for $i from 1 through $gridLength {
+    $name: nth($gridList, $i);
+    $columns: map-get($grid, $name);
+    @for $x from 1 through $columns {
+      #{$mediaName}#{$name}-#{$x} {
+          $col-width: 100/$columns*$x;
+          max-width:#{$col-width}#{%}; 
+          flex-basis:#{$col-width}#{%};
+          }
+    }
+  }
 }
 
 @mixin alignHorizontalChildrenEngine($mediaName, $mediaExtend) {
-	@for $i from 1 through $ahcLength {
-		$name: nth($ahcClassNames, $i);
-		#{$mediaName}#{$name} {
-			@extend #{$mediaExtend}-flex;
-			@if map-get($alignHorizontalChildren, $name) == 'left' {
-				justify-content: flex-start;
-			}
-			@if map-get($alignHorizontalChildren, $name) == 'center' {
-				justify-content: center;
-			}
-			@if map-get($alignHorizontalChildren, $name) == 'right' {
-				justify-content: flex-end;
-			}			
-		}
-	}
+  @for $i from 1 through $ahcLength {
+    $name: nth($ahcClassNames, $i);
+    #{$mediaName}#{$name} {
+      @extend #{$mediaExtend}-flex;
+      @if map-get($alignHorizontalChildren, $name) == 'left' {
+        justify-content: flex-start;
+        margin-right: auto;
+      }
+      @if map-get($alignHorizontalChildren, $name) == 'center' {
+        align-self: center;
+        margin: 0;
+      }
+      @if map-get($alignHorizontalChildren, $name) == 'right' {
+        justify-content: flex-end;
+        margin-left: auto;
+      }     
+    }
+  }
 }
 
 @mixin orientationLayoutEngine($mediaName, $mediaExtend) {
-	@for $i from 1 through $orientationLayoutLength {
-		$name: nth($orientationLayoutClassNames, $i);
-		#{$mediaName}#{$name} {
-			@extend #{$mediaExtend}-flex;
-			@if map-get($orientationLayout, $name) == 'row' {
-				flex-direction: row;
-			}
-			@if map-get($orientationLayout, $name) == 'column' {
-				flex-direction: column;
-			}
-		}
-	}
+  @for $i from 1 through $orientationLayoutLength {
+    $name: nth($orientationLayoutClassNames, $i);
+    #{$mediaName}#{$name} {
+      @extend #{$mediaExtend}-flex;
+      @if map-get($orientationLayout, $name) == 'row' {
+        flex-direction: row;
+      }
+      @if map-get($orientationLayout, $name) == 'column' {
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@mixin alignVerticalChildrenEngine($mediaName, $mediaExtend) {
+  @for $i from 1 through $ahcLength {
+    $name: nth($avcClassNames, $i);
+    #{$mediaName}#{$name} {
+      @extend #{$mediaExtend}-flex;
+      @if map-get($alignVerticalChildren, $name) == 'top' {
+        align-self: flex-start;
+      }
+      @if map-get($alignVerticalChildren, $name) == 'middle' {
+        align-self: center;
+      }
+      @if map-get($alignVerticalChildren, $name) == 'bottom' {
+        align-self: flex-end;
+      }     
+    }
+  } 
 }
 
 @mixin flex($mediaExtend) {
-	#{$mediaExtend}-flex {
-		display: flex;
-	}
+  #{$mediaExtend}-flex {
+    display: flex;
+  }
 }
 
 @include engine();
