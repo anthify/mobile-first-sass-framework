@@ -1,3 +1,40 @@
+/**
+
+	The general pattern is to specifiy the classname: value.
+	For example the following configuration of...
+	
+		$viewports: (
+			desktop: 1024px;
+		);
+		
+		$margins: (
+			small: 5px;
+		);
+
+	Will print the following CSS;
+		
+		@media only screen and (min-width: 1024px) {
+			
+			.desktop-margin-top-small {
+				margin-top: 5px;
+			}
+			
+			.desktop-margin-right-small {
+				margin-right: 5px;
+			}
+
+			.desktop-margin-bottom-small {
+				margin-bottom: 5px;
+			}
+
+			.desktop-margin-left-small {
+				margin-left: 5px;
+			}
+
+		}
+
+**/
+
 $viewports: (
 	tablet: 768px,
 	desktop: 1024px,
@@ -17,6 +54,11 @@ $padding: (
 
 $grid: (
 	col: 12
+);
+
+$orientationLayout: (
+	row: $row,
+	col: $column
 );
 
 $alignHorizontalChildren: (

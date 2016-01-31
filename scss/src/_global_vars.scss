@@ -4,6 +4,8 @@ $right: 'right' !default;
 $middle: 'middle' !default;
 $top: 'top' !default;
 $bottom: 'bottom' !default;
+$column: 'column' !default;
+$row: 'row' !default;
 
 $directions: (top, right, bottom, left);
 
@@ -14,4 +16,3 @@ $grid: false !default;
 $alignHorizontalChildren: false !default;
 $alignVertical: false !default;
 $alignText: false !default;
-

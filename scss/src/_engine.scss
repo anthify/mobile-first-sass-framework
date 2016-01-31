@@ -31,6 +31,11 @@
 	$avcLength: length($avcClassNames);
 }
 
+@if $orientationLayout {
+	$orientationLayoutClassNames: map-keys($orientationLayout);
+	$orientationLayoutLength: length($orientationLayoutClassNames);
+}
+
 
 @mixin media($width) {
   @media only screen and (min-width: $width) {
@@ -38,16 +43,21 @@
   }
 }
 
+
+
 @mixin engine() {
 	@if $viewports {
 
 		@for $i from 1 through $viewportLength {
-		
+			$mediaExtend: '%' + nth($viewportList, $i) + '-';
 			$mediaName: '.' + nth($viewportList, $i) + '-';
 			$mediaWidth: map-get($viewports, nth($viewportList, $i));
 			
 			@include media($mediaWidth) {
-				
+
+				@include flex($mediaExtend);
+
+
 				@if $margins {
 					@include marginEngine($mediaName);
 				}
@@ -61,14 +71,23 @@
 				}
 
 				@if $alignHorizontalChildren {
-					@include alignHorizontalChildrenEngine($mediaName);
+					@include alignHorizontalChildrenEngine($mediaName, $mediaExtend);
+				}
+
+				@if $orientationLayout {
+					@include orientationLayoutEngine($mediaName, $mediaExtend);
 				}
 			
 			} //@include media
 		}//@for loop
 	}//@if $viewports
 
+	
+	$mediaExtend: '%';
 	$mediaName: '.';
+
+	@include flex($mediaExtend)
+
 	@if $margins {
 		@include marginEngine($mediaName);
 	}
@@ -82,7 +101,11 @@
 	}
 
 	@if $alignHorizontalChildren {
-		@include alignHorizontalChildrenEngine($mediaName);
+		@include alignHorizontalChildrenEngine($mediaName, $mediaExtend);
+	}
+
+	@if $orientationLayout {
+		@include orientationLayoutEngine($mediaName, $mediaExtend);
 	}
 
 }//Engine
@@ -126,11 +149,11 @@
 	}
 }
 
-@mixin alignHorizontalChildrenEngine($mediaName) {
+@mixin alignHorizontalChildrenEngine($mediaName, $mediaExtend) {
 	@for $i from 1 through $ahcLength {
 		$name: nth($ahcClassNames, $i);
 		#{$mediaName}#{$name} {
-			display: flex;
+			@extend #{$mediaExtend}-flex;
 			@if map-get($alignHorizontalChildren, $name) == 'left' {
 				justify-content: flex-start;
 			}
@@ -141,6 +164,27 @@
 				justify-content: flex-end;
 			}			
 		}
+	}
+}
+
+@mixin orientationLayoutEngine($mediaName, $mediaExtend) {
+	@for $i from 1 through $orientationLayoutLength {
+		$name: nth($orientationLayoutClassNames, $i);
+		#{$mediaName}#{$name} {
+			@extend #{$mediaExtend}-flex;
+			@if map-get($orientationLayout, $name) == 'row' {
+				flex-direction: row;
+			}
+			@if map-get($orientationLayout, $name) == 'column' {
+				flex-direction: column;
+			}
+		}
+	}
+}
+
+@mixin flex($mediaExtend) {
+	#{$mediaExtend}-flex {
+		display: flex;
 	}
 }
 

@@ -29,4 +29,4 @@ gulp.task('watch-files', function() {
 	gulp.watch('./scss/**/*', ['autoprefix']);
 });
 
-gulp.task('default', ['autoprefix', 'watch-files', 'browser-sync']);
+gulp.task('default', ['autoprefix', 'watch-files']);
